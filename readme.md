@@ -164,7 +164,7 @@ Equation for utilization of a counter calculation,
 
 $$\text{Utilization of counter } i = \frac{\text{Busy time of counter }i}{\text{Total time}}$$
 
-<img src="counter1.png" width="49%" style="display: block; margin: auto;" /><img src="counter2.png" width="49%" style="display: block; margin: auto;" /><img src="counter3.png" width="49%" style="display: block; margin: auto;" /><img src="counter4.png" width="49%" style="display: block; margin: auto;" /><img src="total_customers.png" width="49%" style="display: block; margin: auto;" />
+<img src="./plot/counter1.png" width="49%" style="display: block; margin: auto;" /><img src="./plot/counter2.png" width="49%" style="display: block; margin: auto;" /><img src="./plot/counter3.png" width="49%" style="display: block; margin: auto;" /><img src="./plot/counter4.png" width="49%" style="display: block; margin: auto;" /><img src="./plot/total_customers.png" width="49%" style="display: block; margin: auto;" />
 
 # Conclusion
 
