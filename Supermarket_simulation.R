@@ -1,8 +1,8 @@
 library("dplyr")
 
-generate.time.till.next.customer <- function(lam=5){ 
+generate.time.till.next.customer <- function(lam=1.1){ 
   
-  return (rexp(1, rate = 5)/60)
+  return (rexp(1, rate = lam)/60)
   
 }
 
@@ -97,8 +97,9 @@ simulate_shop <- function(){
   
   
   while(!(t >= closing_time && N == 0) ){
+   
     
-    if (t > closing_time){
+    if (t_A > closing_time){
       t_A <- Inf
     }
     
@@ -140,7 +141,7 @@ simulate_shop <- function(){
       
       shopping_customers <-  append(shopping_customers, customer_id)
       shopping_finish_times <- append(shopping_finish_times, t_S)
-      t_S <- min(shopping_finish_times)
+      t_S <- if (length(shopping_finish_times) > 0) min(shopping_finish_times) else Inf
       t_A <- t + generate.time.till.next.customer()
       
     } else if(t_S <= min(t_A, t_D, t_S) & N_S >0 & length(shopping_customers)!=0){
@@ -196,7 +197,7 @@ simulate_shop <- function(){
       
       shopping_customers <- shopping_customers[-index_s]
       shopping_finish_times <- shopping_finish_times[-index_s]
-      t_S <- min(shopping_finish_times)
+      t_S <- if (length(shopping_finish_times) > 0) min(shopping_finish_times) else Inf
       
       
     }else if (N > 0){
@@ -262,6 +263,8 @@ simulate_shop <- function(){
         print("No condition")
       }
       
+    }else{
+      t <- closing_time
     }
     
   }
@@ -341,10 +344,10 @@ run_simulation <- function(runs = 10){
     
     
     
-    avg_waiting_time_c1 <- sum(customer_data[customer_data$Counter == 1,]$Waiting_time) /  Result$c1_cust
-    avg_waiting_time_c2 <- sum(customer_data[customer_data$Counter == 2,]$Waiting_time) /  Result$c2_cust
-    avg_waiting_time_c3 <- sum(customer_data[customer_data$Counter == 3,]$Waiting_time) /  Result$c3_cust
-    avg_waiting_time_c4 <- sum(customer_data[customer_data$Counter == 4,]$Waiting_time) /  Result$c4_cust
+    avg_waiting_time_c1 <- if(Result$c1_cust > 0) sum(customer_data[customer_data$Counter == 1,]$Waiting_time) / Result$c1_cust else 0
+    avg_waiting_time_c2 <- if(Result$c2_cust > 0) sum(customer_data[customer_data$Counter == 2,]$Waiting_time) / Result$c2_cust else 0
+    avg_waiting_time_c3 <- if(Result$c3_cust > 0) sum(customer_data[customer_data$Counter == 3,]$Waiting_time) / Result$c3_cust else 0
+    avg_waiting_time_c4 <- if(Result$c4_cust > 0) sum(customer_data[customer_data$Counter == 4,]$Waiting_time) / Result$c4_cust else 0
     
     avg_time_spent <- sum(customer_data$Total_time_spent) / Result$total_cust
     
@@ -374,7 +377,6 @@ run_simulation <- function(runs = 10){
 }
 
 Final_Result <- run_simulation(runs = 1000)
-
 
 
 print(paste("Average Waiting Time For Counter 1:",mean(Final_Result$avg_Wait_c1)))
