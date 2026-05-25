@@ -1,4 +1,4 @@
-Supermarket Simulation Project Report
+Supermarket Simulation Project 
 ================
 Kalana Ekanayake
 
